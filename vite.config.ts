@@ -8,8 +8,12 @@ export default defineConfig({
     assetsDir: 'static',
   },
   server: {
+    port: 3000,
+    cors: true,
     proxy: {
-      "/api/time ":'http://localhost:8000',
+      '/api': {
+        target: 'http://localhost:8000',
+      }
     },
   },
 })
