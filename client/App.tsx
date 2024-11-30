@@ -1,35 +1,19 @@
-import { useEffect, useState } from "react";
+import useSWR from 'swr'
 
 export default function App() {
 
-  const [currentTime, setCurrentTime] = useState(0)
-  const [log,setLog] = useState("")
+  const fetcher = (url :string) => fetch(url).then(r => r.json())
 
-  useEffect(() => {
+  const { data, error } = useSWR("/api/time", fetcher)
 
-    const fetchTime = async () => {
+  if (error)
+    return <p className="text-center text-danger m-5 fs-4">{error}</p>
 
-      
-      const response = await fetch('/api/time')
-      if (response.status != 200) {
-        setLog(response.statusText)
-        return
-      }
-
-      const data = await response.json()
-      setCurrentTime(data.time)
-      
-    }
-
-    fetchTime()
-
-  }, [])
+  if (data == undefined) {
+    return <p></p>
+  }
 
   return (
-    <div className="container">
-      <p className="text-center m-5 p-5 fs-3">The current time is {currentTime}.</p>
-      <p className="text-center text-danger fs-4">{log}</p>
-    </div>
+    <p className="text-center m-5 fs-3">The current time is {data.time}.</p>
   )
 }
-
