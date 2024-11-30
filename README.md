@@ -8,7 +8,6 @@ Instal.la docker:
 
 ```sh
 curl -L sh.xtec.dev/docker.sh | sh
-su - ${USER}
 ```
 
 Executa el contenidor:
@@ -16,8 +15,6 @@ Executa el contenidor:
 ```sh
 docker run -it registry.gitlab.com/xtec/python/vite
 ```
-
-
 
 ## Develop
 
@@ -44,7 +41,7 @@ A l'hora de desenvolupar l'aplicació:
 
 ```sh
 $ docker build --tag vite .
-$ docker run -it vite
+$ docker run -p 80:80 vite
 ```
 
 Si debug:

@@ -1,4 +1,9 @@
-FROM python:3.12-alpine AS builder
+FROM oven/bun:1 AS client
+WORKDIR /app
+COPY . ./
+RUN  bun run build
+
+FROM python:3.12-alpine AS server
 
 RUN pip install poetry==1.8.3
 
@@ -19,11 +24,14 @@ CMD ["poetry", "run", "python", "main.py"]
 
 FROM python:3.12-alpine AS runtime
 
+WORKDIR /app
+
 ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"
 
-COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+COPY --from=server ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+COPY --from=client /app/static  /app/static
 
-COPY app  ./
+COPY server  /app
 
-ENTRYPOINT ["python", "main.py"]
+CMD [".venv/bin/fastapi", "run", "main.py", "--port", "80"]
