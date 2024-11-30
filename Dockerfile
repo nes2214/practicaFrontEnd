@@ -1,7 +1,8 @@
 FROM oven/bun:1 AS client
 WORKDIR /app
 COPY . ./
-RUN  bun run build
+RUN bun install
+RUN bun run build
 
 FROM python:3.12-alpine AS server
 
