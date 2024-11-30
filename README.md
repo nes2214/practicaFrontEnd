@@ -13,7 +13,7 @@ curl -L sh.xtec.dev/docker.sh | sh
 Executa el contenidor:
 
 ```sh
-docker run -it registry.gitlab.com/xtec/python/vite
+docker run --rm -p 80:80 registry.gitlab.com/xtec/python/vite
 ```
 
 ## Develop
