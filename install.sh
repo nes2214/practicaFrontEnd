@@ -1,10 +1,17 @@
 #/bin/bash
 
-curl -L sh.xtec.dev/docker.sh | sh
+if ! command -v poetry &> /dev/null; then
+    curl -sSL https://install.python-poetry.org | python3 -
+fi
 
-curl -sSL https://install.python-poetry.org | python3 -
+if ! command -v bun &> /dev/null; then
+    sudo apt install -y unzip
+    curl -fsSL https://bun.sh/install | bash
+fi
 
-sudo apt install -y unzip
-curl -fsSL https://bun.sh/install | bash
+if ! command -v docker &> /dev/null; then
+    curl -L sh.xtec.dev/docker.sh | sh
+fi
 
-echo "source /home/box/.bashrc"
+echo
+echo "source ~/.bashrc"
