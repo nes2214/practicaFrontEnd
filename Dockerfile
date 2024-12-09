@@ -4,7 +4,7 @@ COPY . ./
 RUN bun install
 RUN bun run build
 
-FROM python:3.12-alpine AS server
+FROM python:3.12 AS server
 
 RUN pip install poetry==1.8.3
 
