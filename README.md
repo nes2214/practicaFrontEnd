@@ -1,11 +1,10 @@
 # Vite
 
-Aquest projecte correspon a l'activitat: <https://xtec.dev/python/vite/>
+Este proyecto corresponde a la actividad: <https://xtec.dev/python/vite/>
 
+En Gitlab tienes una imagen docker de la apliacación: <https://gitlab.com/xtec/python/vite/container_registry>.
 
-A `registry.gitlab.com`  tens una imatge del projecte.
-
-La pots executar amb docker:
+Puedes ejecutar la app con docker:
 
 ```sh
 $ curl -L sh.xtec.dev/docker.sh | sh
@@ -14,32 +13,31 @@ $ docker run --rm -p 80:80 registry.gitlab.com/xtec/python/vite
 
 ## Develop
 
-Executa el servidor Python:
+Arranca el servidor Python:
 
 ```sh
-$ poetry shell
-$ poetry install
+$ poetry update
 $ bun run server
 ```
 
-Executa el client React:
+Arranca el servidor Vite para React:
 
 ```sh
-$ bun install
+$ bun update
 $ bun run client
 ```
 
-Obre el navegador a <http://localhost:3000/>
+Abre el navegador en <http://localhost:3000/>
 
-Pots contstruir una imatge "Docker":
+Puedes construir una imagen con el nombre `app`:
 
 ```sh
-$ docker build --tag vite .
-$ docker run -p 80:80 vite
+$ docker build --tag app .
+$ docker run -p 80:80 app
 ```
 
-Si debug:
+Pudes entrar dentro de la aplicación para debug:
 
 ```sh
-$ docker run --rm -it vite /bin/sh
+$ docker run --rm -it app /bin/sh
 ```
