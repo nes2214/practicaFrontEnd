@@ -23,7 +23,7 @@ COPY server ./
 
 CMD ["poetry", "run", "python", "main.py"]
 
-FROM python:3.12-alpine AS runtime
+FROM python:3.12 AS runtime
 
 WORKDIR /app
 
