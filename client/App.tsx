@@ -20,7 +20,7 @@ function Home() {
   return <div>
     <p className="">
       <a href="https://xtec.dev" target="_blank">
-        <img src={xtecLogo} className="h-48 object-contain" alt="XTec Logo" />
+        <img src={xtecLogo} className="h-12 object-contain" alt="xtec.dev Logo" />
       </a>
     </p>
     <Time />

@@ -1,4 +1,5 @@
-.mypy_cache
+.idea
+.venv
 node_modules
 __pycache__
 static

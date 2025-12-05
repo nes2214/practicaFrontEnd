@@ -23,6 +23,10 @@ $ bun run server
 Arranca el servidor Vite para React:
 
 ```sh
+ deno install --allow-scripts=npm:@swc/core
+```
+
+```sh
 $ bun update
 $ bun run client
 ```

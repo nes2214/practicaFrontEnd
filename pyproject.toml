@@ -1,15 +1,16 @@
-[tool.poetry]
+[project]
 name = "vite"
-package-mode = false
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.123.9",
+    "uvicorn>=0.38.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-fastapi = {extras = ["standard"], version = "^0.115.5"}
-
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.3"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.0.1",
+]
