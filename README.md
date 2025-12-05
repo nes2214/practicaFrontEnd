@@ -1,4 +1,4 @@
-# Vite
+## Python - Vite
 
 Este proyecto corresponde a la actividad: <https://xtec.dev/python/vite/>
 
@@ -16,20 +16,16 @@ $ docker run --rm -p 80:80 registry.gitlab.com/xtec/python/vite
 Arranca el servidor Python:
 
 ```sh
-$ poetry update
-$ bun run server
+$ deno task server
 ```
 
 Arranca el servidor Vite para React:
 
 ```sh
  deno install --allow-scripts=npm:@swc/core
+ deno task client
 ```
 
-```sh
-$ bun update
-$ bun run client
-```
 
 Abre el navegador en <http://localhost:3000/>
 
