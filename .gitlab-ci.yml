@@ -1,3 +1,17 @@
+variables:
+  POSTGRES_DB: db
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
+  POSTGRES_HOST_AUTH_METHOD: trust
+test:
+  stage: test
+  image: ghcr.io/astral-sh/uv:debian
+  services:
+    - postgres:18
+  script:
+    - uv sync
+    - uv run --link-mode=copy pytest --junitxml=report.xml
+
 build:
   image: docker:27.2.0
   services:
@@ -5,6 +19,7 @@ build:
   #rules:
   #  - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker push $CI_REGISTRY_IMAGE
+    - ls
+    #- echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    #- docker build -t $CI_REGISTRY_IMAGE .
+    #- docker push $CI_REGISTRY_IMAGE
