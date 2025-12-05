@@ -5,6 +5,7 @@ import asyncpg
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
+import env
 
 app = FastAPI()
 
@@ -22,4 +23,4 @@ if os.path.exists("../static"):
     app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="localhost", port=8000, reload=True)
+    uvicorn.run("main:app", host=env.settings.uvicorn_host, port=env.settings.uvicorn_port, reload=env.settings.uvicorn_reload)
