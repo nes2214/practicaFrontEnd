@@ -6,11 +6,13 @@ variables:
 test:
   stage: test
   image: ghcr.io/astral-sh/uv:debian
+  variables:
+    UV_LINK_MODE: copy
   services:
     - postgres:18
   script:
     - uv sync
-    - uv run --link-mode=copy pytest --junitxml=report.xml
+    - uv run pytest --junitxml=report.xml
 
 build:
   image: docker:27.2.0
