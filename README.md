@@ -1,10 +1,11 @@
 ## Python - Vite
 
-Este proyecto corresponde a la actividad: <https://xtec.dev/python/vite/>
+This project corresponds to the activity: https://xtec.dev/python/vite/
 
-En Gitlab tienes una imagen docker de la apliacación: <https://gitlab.com/xtec/python/vite/container_registry>.
+A Docker image of the application is available on GitLab:
+https://gitlab.com/xtec/python/vite/container_registry
 
-Puedes ejecutar la app con docker:
+You can run the app directly with Docker:
 
 ```sh
 docker run --rm -p 80:80 registry.gitlab.com/xtec/python/vite
@@ -12,30 +13,36 @@ docker run --rm -p 80:80 registry.gitlab.com/xtec/python/vite
 
 ## Develop
 
-Arranca el servidor Python:
+Start the Python server:
 
 ```sh
-$ deno task server
+deno task server
 ```
 
-Arranca el servidor Vite para React:
+Install client dependencies:
 
 ```sh
- deno install --allow-scripts=npm:@swc/core
+deno install --allow-scripts=npm:@swc/core
+```
+
+Start the Vite development server:
+
+```sh
  deno task client
 ```
 
+Then open your browser at: http://localhost:3000/
 
-Abre el navegador en <http://localhost:3000/>
+## Docker
 
-Puedes construir una imagen con el nombre `app`:
+You can build a Docker image named app:
 
 ```sh
-$ docker build --tag app .
-$ docker run -p 80:80 app
+docker build --tag app .
+docker run -p 80:80 app
 ```
 
-Pudes entrar dentro de la aplicación para debug:
+You can also start a shell inside the container for debugging:
 
 ```sh
 $ docker run --rm -it app /bin/sh

@@ -1,5 +1,5 @@
 variables:
-  POSTGRES_DB: db
+  POSTGRES_DB: clinic
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: password
   POSTGRES_HOST_AUTH_METHOD: trust
@@ -19,7 +19,6 @@ build:
   #rules:
   #  - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
-    - ls
-    #- echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-    #- docker build -t $CI_REGISTRY_IMAGE .
-    #- docker push $CI_REGISTRY_IMAGE
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker build -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
