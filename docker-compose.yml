@@ -1,7 +1,6 @@
 services:
-  db:
+  postgres:
     image: postgres:18
-    container_name: postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: clinic
@@ -13,4 +12,4 @@ services:
       - db_data:/var/lib/postgresql/data
 
 volumes:
-  db_data:
+  postgres_data:

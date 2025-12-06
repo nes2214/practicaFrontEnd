@@ -7,8 +7,7 @@ En Gitlab tienes una imagen docker de la apliacación: <https://gitlab.com/xtec/
 Puedes ejecutar la app con docker:
 
 ```sh
-$ curl -L sh.xtec.dev/docker.sh | sh
-$ docker run --rm -p 80:80 registry.gitlab.com/xtec/python/vite
+docker run --rm -p 80:80 registry.gitlab.com/xtec/python/vite
 ```
 
 ## Develop

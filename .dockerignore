@@ -1,4 +1,6 @@
-static
+.venv
+node_modules
+server/static
 Dockerfile
 .dockerignore
 __pycache__

@@ -19,8 +19,8 @@ def get_current_time():
     return {"time": time.time()}
 
 
-if os.path.exists("../static"):
-    app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host=env.settings.uvicorn_host, port=env.settings.uvicorn_port, reload=env.settings.uvicorn_reload)
+    uvicorn.run("main:app", host=env.settings.uvicorn_host, port=env.settings.uvicorn_port,
+                reload=env.settings.uvicorn_reload)
