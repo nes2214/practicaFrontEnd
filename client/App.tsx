@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router"
 import useSWR from 'swr'
 import xtecLogo from './assets/xtec.svg'
-
+import Doctors from "./Doctors";
 
 export default function App() {
 
@@ -9,6 +9,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path={"/"} element={<Home />} />
+        <Route path="/doctors" element={<Doctors />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>)

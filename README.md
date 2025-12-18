@@ -13,6 +13,12 @@ docker run --rm -p 80:80 registry.gitlab.com/xtec/python/vite
 
 ## Develop
 
+Start a PostgreSQL container:
+
+```sh
+docker run -d --name postgres --restart=always -p 5432:5432 -e POSTGRES_PASSWORD=password -e POSTGRES_USER=postgres postgres:18
+```
+
 Start the Python server:
 
 ```sh

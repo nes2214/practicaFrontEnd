@@ -7,14 +7,15 @@ from fastapi import FastAPI
 
 import env
 
-DATABASE_URL = f"postgres://{env.settings.database_user}:{env.settings.database_password}@{env.settings.database_host}/clinic"
+DATABASE_URL = f"postgres://{env.settings.database_user}:{env.settings.database_password}@{env.settings.database_host}/postgres"
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     # app.state is where the connection pool is created, which can be accessed later inside views.
     # This is only run once during app startup.
-    app.state.pool = asyncpg.create_pool(
+    # M'han recomenat l'await.
+    app.state.pool = await asyncpg.create_pool(
         dsn=DATABASE_URL,
         min_size=1,
         max_size=10,
@@ -33,10 +34,10 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 
 
 doctors_table = '''
-    create table if not exists doctors (
-        user text primary key,
-        name text not null
-    ); 
+    CREATE TABLE IF NOT EXISTS doctors (
+        username TEXT PRIMARY KEY,
+        name TEXT NOT NULL
+    );
 '''
 
 
