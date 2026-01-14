@@ -54,7 +54,7 @@ https://gitlab.com/xtec/python/vite/-/blob/main/README.md?ref_type=heads
 docker run -d --name postgres --restart=always -p 5432:5432 -e POSTGRES_PASSWORD=password -e POSTGRES_USER=postgres postgres:18
 ```
 
-Observació! Si ja teniu un contenidor que es diu postgres, renombreu-lo a postgres2 o pareu-lo.
+Observació! Si ja teniu un contenidor que es diu postgres, renombreu-lo a postgres2 o pareu-lo i esborreu-lo.
 
 Hauriem de provar la base de dades, tal i com vau veure:
     https://xtec.dev/data/postgres/basic
