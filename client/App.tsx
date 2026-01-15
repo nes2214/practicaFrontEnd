@@ -1,54 +1,20 @@
-import { BrowserRouter, Routes, Route } from "react-router"
-import useSWR from 'swr'
-import xtecLogo from './assets/xtec.svg'
-import Doctors from "./Doctors";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Menu from './pages/Menu';
+import AboutUs from './pages/AboutUs';
 
 export default function App() {
-
   return (
     <BrowserRouter>
+      <Menu />
       <Routes>
-        <Route path={"/"} element={<Home />} />
-        <Route path="/doctors" element={<Doctors />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/" element={<Home />} /> {/* Home */}
+        <Route path="/about" element={<AboutUs />} /> {/* Home */}
       </Routes>
-    </BrowserRouter>)
-}
-
-
-function Home() {
-
-  return <div>
-    <p className="">
-      <a href="https://xtec.dev" target="_blank">
-        <img src={xtecLogo} className="h-12 object-contain" alt="xtec.dev Logo" />
-      </a>
-    </p>
-    <Time />
-  </div>
-}
-
-function Time() {
-
-  const fetcher = (arg: any, ...args: any) => fetch(arg, ...args).then((res) => res.json());
-
-  const { data, error, isValidating } = useSWR("/api/time", fetcher)
-
-  if (error)
-    return <p className="text-center text-danger m-5 text-4xl">SSSS{error}</p>
-
-  if (isValidating)
-    return <p className="text-center text-warning m-5 fs-4">Loading ...</p>
-
-  return (
-    <p className="text-center mt-5 text-xl">The current time is {data.time}.</p>
-  )
-}
-
-function NotFound() {
-  return (
-    <>
-      <p className="text-danger fs-4">404 Not Found</p>
-    </>
-  )
+      {/* Footer fixat a la part inferior */}
+      <footer className="fixed-bottom bg-dark text-white text-center py-3 mt-auto">
+          <p>XTEC.DEV || CC-BY-SA 4.0</p>
+      </footer>
+    </BrowserRouter>
+  );
 }

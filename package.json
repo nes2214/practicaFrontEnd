@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "react": "^19.2.0",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.0",
     "react-router": "^7.10.1",
+    "react-router-dom": "^7.12.0",
     "swr": "^2.3.7"
   },
   "devDependencies": {
@@ -27,6 +29,7 @@
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
+    "react-bootstrap-icons": "^1.11.5",
     "globals": "^16.5.0",
     "tailwindcss": "^4.0.6",
     "typescript": "~5.9.3",

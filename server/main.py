@@ -9,15 +9,34 @@ the app locally using uvicorn.
 """
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 import db
+from pydantic import BaseModel
+from typing import List
+
 from api import clinic_router
 
 # Create FastAPI app instance
 app = FastAPI(
     lifespan=db.lifespan,   # Async context manager for database connection pool
     title="Clinic Manager"
+)
+
+# CORS només per desenvolupament amb React/Vite
+origins = [
+    "http://localhost:3000",  # React/Vite
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Include all routes from the clinic API router

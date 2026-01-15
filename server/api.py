@@ -17,6 +17,7 @@ from asyncpg.exceptions import UniqueViolationError
 import uuid
 from typing import List, Optional
 from loguru import logger
+import time
 
 from storage import client, settings
 from users import verify_password, create_access_token, get_user, decode_access_token, create_user
@@ -94,6 +95,14 @@ def require_role(allowed_roles: List[str]):
             raise HTTPException(status_code=403, detail="Not enough permissions")
         return user
     return role_checker
+
+# -------------------------------
+# Public Test Method
+# -------------------------------
+# Servei web de prova.
+@clinic_router.get("/api/time")
+def get_current_time():
+    return {"time": time.time()}
 
 
 # -------------------------------
