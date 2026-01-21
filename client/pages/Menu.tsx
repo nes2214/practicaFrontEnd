@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import { getToken, removeToken } from "../utils/auth";
 
 export default function Menu() {
@@ -27,6 +27,7 @@ export default function Menu() {
             <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link as={Link} to="/about">About Us</Nav.Link>
             {loggedIn && <Nav.Link as={Link} to="/user">My Info</Nav.Link>}
+            {loggedIn && <Nav.Link as={Link} to="/protected">Protected</Nav.Link>} {/* Afegeix la nova pàgina */}
           </Nav>
           <Nav>
             {!loggedIn && <Nav.Link as={Link} to="/login">Login</Nav.Link>}

@@ -48,6 +48,8 @@ Recomanem extensió Docker per VSCode.
 
 https://gitlab.com/xtec/python/vite/-/blob/main/README.md?ref_type=heads
 
+---
+
 ### 4. Usar docker per a tenir una BBDD en PostgreSQL
 
 ```sh
@@ -56,40 +58,40 @@ docker run -d --name postgres --restart=always -p 5432:5432 -e POSTGRES_PASSWORD
 
 Observació! Si ja teniu un contenidor que es diu postgres, renombreu-lo a postgres2 o pareu-lo i esborreu-lo.
 
+Caldrà reiniciar Code i wsl.
+
+
 Hauriem de provar la base de dades, tal i com vau veure:
     https://xtec.dev/data/postgres/basic
     
 Als fitxers .env i a .gitlab.ci hi ha el nom i les credencials de la base de dades:
 
-  POSTGRES_DB: clinic
+  POSTGRES_DB: clinic_db
 
-Si voleu posar doctors:
+#### Crea la base de dades
+
+Recordeu que per accedir a Postgres heu d'entrar dins del contenidor:
     
 ```sh
 docker exec -it postgres bash
 psql -U postgres
 ```
 
+Dins de Postgres ja pots crear la base de dades:
+
 ```sql
-INSERT INTO doctors (username, name) VALUES
-('drhouse', 'Gregory House'),
-('drcuddy', 'Lisa Cuddy'),
-('drwilson', 'James Wilson');
+CREATE DATABASE clinic_db;
 ```
 
-O millor encara, llegiu com posar un fitxer sql al contenidor (todo)
+Sortiu de Postgresql i del contenidor.
 
-```sh 
-wget https://gitlab.com/xtec/postgres-data/-/raw/main/scott.sql
-docker cp scott.sql postgres:scoot.sql
-cat scott.sql | docker exec -i postgres su postgres -c "psql"
-```
+---
 
 ### 5. Instal·lar deno
 
+- https://docs.deno.com/runtime/getting_started/installation/
+
 ```sh
-   https://docs.deno.com/runtime/getting_started/installation/
-   
    sudo apt update
    sudo apt install unzip -y
    curl -fsSL https://deno.land/install.sh | sh
@@ -99,13 +101,14 @@ cat scott.sql | docker exec -i postgres su postgres -c "psql"
 
 Si trobem passos adicionals necessaris ho actualitzarem al readme.md
 
+---
+
 ### 6. Executar deno per muntar el server (Python)
 
 Primer, instal·la uv:
 
 ```sh
 curl -LsSf https://astral.sh/uv/install.sh | sh
-source $HOME/.local/bin/env
 ```
 
 Ara si, arrenca el server:
@@ -113,6 +116,12 @@ Ara si, arrenca el server:
 ```sh
 deno task server
 ```
+
+I prova la API creada al navegador:
+
+- http://localhost:8080/docs
+
+---
 
 ### 7. Client
 
