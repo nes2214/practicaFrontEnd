@@ -40,7 +40,7 @@ app.add_middleware(
 )
 
 # Include all routes from the clinic API router
-app.include_router(clinic_router, tags=["Clinic"])
+app.include_router(clinic_router, prefix="/api", tags=["Clinic"])
 
 if __name__ == "__main__":
     # Run the application locally with auto-reload enabled

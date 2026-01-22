@@ -13,6 +13,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
     try {
       const formData = new URLSearchParams();
       formData.append("username", username);
@@ -20,19 +21,19 @@ export default function Login() {
 
       const res = await fetch("/api/token", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-          body: formData,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData,
       });
 
       if (!res.ok) throw new Error("Invalid credentials");
-
       const data = await res.json();
       setToken(data.access_token);
-      navigate("/"); // redirigeix al Home
-    } catch (err: any) {
-      setError(err.message);
+      window.dispatchEvent(new Event("storage")); // NOTIFICA Menu del canvi
+      navigate("/user"); // redirigeix a User
+      setToken(data.access_token);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'An error occurred';
+      setError(message);
     } finally {
       setLoading(false);
     }

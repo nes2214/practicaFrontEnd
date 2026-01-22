@@ -1,4 +1,3 @@
-
 import useSWR from 'swr'
 import xtecLogo from '../assets/xtec.svg'
 
