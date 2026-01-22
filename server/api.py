@@ -108,7 +108,7 @@ def get_current_time():
 # -------------------------------
 # LOGIN (GET TOKEN)
 # -------------------------------
-@clinic_router.post("/token", response_model=TokenResponse)
+@clinic_router.post("/api/token", response_model=TokenResponse)
 async def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     pool: asyncpg.Pool = Depends(get_postgres)
@@ -194,7 +194,7 @@ async def read_users_me(current_user: UserToken = Depends(get_current_user)):
 #                               PATIENTS
 # =====================================================================
 
-@clinic_router.post("/patients", response_model=Patient, dependencies=[Depends(require_role(["admin"]))])
+@clinic_router.post("/api/patients", response_model=Patient, dependencies=[Depends(require_role(["admin"]))])
 async def create_patient(
     patient: PatientCreate = Body(...),
     db_pool: asyncpg.Pool = Depends(get_postgres),
@@ -233,7 +233,7 @@ async def create_patient(
         raise HTTPException(status_code=500, detail="Internal error creating patient")
 
 
-@clinic_router.get("/patients", response_model=List[Patient], dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
+@clinic_router.get("/api/patients", response_model=List[Patient], dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
 async def list_patients(
     db_pool: asyncpg.Pool = Depends(get_postgres),
 ) -> List[Patient]:
@@ -261,7 +261,7 @@ async def list_patients(
         raise HTTPException(status_code=500, detail="Error fetching patients")
 
 
-@clinic_router.get("/patients/{username}", response_model=Patient, dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
+@clinic_router.get("/api/patients/{username}", response_model=Patient, dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
 async def get_patient(
     username: str,
     db_pool: asyncpg.Pool = Depends(get_postgres),
@@ -295,7 +295,7 @@ async def get_patient(
         raise HTTPException(status_code=500, detail="Internal error fetching patient")
 
 
-@clinic_router.patch("/patients/{username}", response_model=Patient, dependencies=[Depends(require_role(["admin"]))])
+@clinic_router.patch("/api/patients/{username}", response_model=Patient, dependencies=[Depends(require_role(["admin"]))])
 async def update_patient(
     username: str,
     updates: PatientUpdate,
@@ -337,7 +337,7 @@ async def update_patient(
         raise HTTPException(status_code=500, detail="Internal error updating patient")
 
 
-@clinic_router.delete("/patients/{username}", dependencies=[Depends(require_role(["admin"]))])
+@clinic_router.delete("/api/patients/{username}", dependencies=[Depends(require_role(["admin"]))])
 async def delete_patient(
     username: str,
     db_pool: asyncpg.Pool = Depends(get_postgres),
@@ -375,7 +375,7 @@ async def delete_patient(
 #                               DOCTORS
 # =====================================================================
 
-@clinic_router.post("/doctors", response_model=Doctor, dependencies=[Depends(require_role(["admin"]))])
+@clinic_router.post("/api/doctors", response_model=Doctor, dependencies=[Depends(require_role(["admin"]))])
 async def create_doctor(
     doctor: DoctorCreate,
     db_pool: asyncpg.Pool = Depends(get_postgres),
@@ -415,7 +415,7 @@ async def create_doctor(
         raise HTTPException(status_code=500, detail="Internal error creating doctor")
 
 
-@clinic_router.get("/doctors", response_model=List[Doctor], dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
+@clinic_router.get("/api/doctors", response_model=List[Doctor], dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
 async def list_doctors(db_pool: asyncpg.Pool = Depends(get_postgres)):
     """
     Retrieve a list of all doctors.
@@ -442,7 +442,7 @@ async def list_doctors(db_pool: asyncpg.Pool = Depends(get_postgres)):
         raise HTTPException(status_code=500, detail="Internal error")
 
 
-@clinic_router.get("/doctors/{username}", response_model=Doctor, dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
+@clinic_router.get("/api/doctors/{username}", response_model=Doctor, dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
 async def get_doctor(username: str, db_pool: asyncpg.Pool = Depends(get_postgres)):
     """
     Retrieve a single doctor by username.
@@ -468,7 +468,7 @@ async def get_doctor(username: str, db_pool: asyncpg.Pool = Depends(get_postgres
     return Doctor(**row)
 
 
-@clinic_router.patch("/doctors/{username}", response_model=Doctor, dependencies=[Depends(require_role(["admin"]))])
+@clinic_router.patch("/api/doctors/{username}", response_model=Doctor, dependencies=[Depends(require_role(["admin"]))])
 async def update_doctor(
     username: str,
     updates: DoctorUpdate,
@@ -505,7 +505,7 @@ async def update_doctor(
     return Doctor(**row)
 
 
-@clinic_router.delete("/doctors/{username}", dependencies=[Depends(require_role(["admin"]))])
+@clinic_router.delete("/api/doctors/{username}", dependencies=[Depends(require_role(["admin"]))])
 async def delete_doctor(username: str, db_pool: asyncpg.Pool = Depends(get_postgres)):
     """
     Delete a doctor by username.
@@ -535,7 +535,7 @@ async def delete_doctor(username: str, db_pool: asyncpg.Pool = Depends(get_postg
 #                               DIAGNOSIS
 # =====================================================================
 
-@clinic_router.post("/diagnosis", response_model=Diagnosis, dependencies=[Depends(require_role(["doctor"]))])
+@clinic_router.post("/api/diagnosis", response_model=Diagnosis, dependencies=[Depends(require_role(["doctor"]))])
 async def create_diagnosis(
     diag: DiagnosisCreate,
     db_pool: asyncpg.Pool = Depends(get_postgres),
@@ -571,7 +571,7 @@ async def create_diagnosis(
     return Diagnosis(**row)
 
 
-@clinic_router.get("/diagnosis", response_model=List[Diagnosis], dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
+@clinic_router.get("/api/diagnosis", response_model=List[Diagnosis], dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
 async def list_diagnosis(db_pool: asyncpg.Pool = Depends(get_postgres)):
     """
     Retrieve a list of all diagnoses.
@@ -594,7 +594,7 @@ async def list_diagnosis(db_pool: asyncpg.Pool = Depends(get_postgres)):
     return [Diagnosis(**r) for r in rows]
 
 
-@clinic_router.get("/diagnosis/{id_diagnosis}", response_model=Diagnosis, dependencies=[Depends(require_role(["doctor", "patient"]))])
+@clinic_router.get("/api/diagnosis/{id_diagnosis}", response_model=Diagnosis, dependencies=[Depends(require_role(["doctor", "patient"]))])
 async def get_diagnosis(id_diagnosis: int, db_pool: asyncpg.Pool = Depends(get_postgres)):
     """
     Retrieve a single diagnosis by its ID.
@@ -624,7 +624,7 @@ async def get_diagnosis(id_diagnosis: int, db_pool: asyncpg.Pool = Depends(get_p
     return Diagnosis(**row)
 
 
-@clinic_router.patch("/diagnosis/{id_diagnosis}", response_model=Diagnosis, dependencies=[Depends(require_role(["doctor"]))])
+@clinic_router.patch("/api/diagnosis/{id_diagnosis}", response_model=Diagnosis, dependencies=[Depends(require_role(["doctor"]))])
 async def update_diagnosis(
     id_diagnosis: int,
     updates: DiagnosisUpdate,
@@ -672,7 +672,7 @@ async def update_diagnosis(
     return Diagnosis(**row)
 
 
-@clinic_router.delete("/diagnosis/{id_diagnosis}", dependencies=[Depends(require_role(["doctor"]))])
+@clinic_router.delete("/api/diagnosis/{id_diagnosis}", dependencies=[Depends(require_role(["doctor"]))])
 async def delete_diagnosis(
     id_diagnosis: int,
     db_pool: asyncpg.Pool = Depends(get_postgres),
@@ -705,7 +705,7 @@ async def delete_diagnosis(
 #                             APPOINTMENTS
 # =====================================================================
 
-@clinic_router.post("/appointments", response_model=Appointment, dependencies=[Depends(require_role(["admin"]))])
+@clinic_router.post("/api/appointments", response_model=Appointment, dependencies=[Depends(require_role(["admin"]))])
 async def create_appointment(
     ap: AppointmentCreate,
     db_pool: asyncpg.Pool = Depends(get_postgres),
@@ -738,7 +738,7 @@ async def create_appointment(
     return Appointment(**row)
 
 
-@clinic_router.get("/appointments", response_model=List[Appointment], dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
+@clinic_router.get("/api/appointments", response_model=List[Appointment], dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
 async def list_appointments(db_pool: asyncpg.Pool = Depends(get_postgres)):
     """
     Retrieve a list of all appointments.
@@ -761,7 +761,7 @@ async def list_appointments(db_pool: asyncpg.Pool = Depends(get_postgres)):
     return [Appointment(**r) for r in rows]
 
 
-@clinic_router.get("/appointments/{id_appointment}", response_model=Appointment, dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
+@clinic_router.get("/api/{id_appointment}", response_model=Appointment, dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
 async def get_appointment(
     id_appointment: int,
     db_pool: asyncpg.Pool = Depends(get_postgres),
@@ -794,7 +794,7 @@ async def get_appointment(
     return Appointment(**row)
 
 
-@clinic_router.patch("/appointments/{id_appointment}", response_model=Appointment, dependencies=[Depends(require_role(["admin"]))])
+@clinic_router.patch("/api/appointments/{id_appointment}", response_model=Appointment, dependencies=[Depends(require_role(["admin"]))])
 async def update_appointment(
     id_appointment: int,
     updates: AppointmentUpdate,
@@ -840,7 +840,7 @@ async def update_appointment(
     return Appointment(**row)
 
 
-@clinic_router.delete("/appointments/{id_appointment}", dependencies=[Depends(require_role(["admin"]))])
+@clinic_router.delete("/api/appointments/{id_appointment}", dependencies=[Depends(require_role(["admin"]))])
 async def delete_appointment(
     id_appointment: int,
     db_pool: asyncpg.Pool = Depends(get_postgres),
