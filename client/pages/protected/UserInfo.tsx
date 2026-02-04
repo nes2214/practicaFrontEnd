@@ -19,13 +19,13 @@ export default function UserInfo() {
     }
   }, [token]);
 
-  if (!token) return <p className="text-red-600">⛔ No estàs autenticat</p>;
+  if (!token) return <p className="text-red-600">No estàs autenticat</p>;
   if (error) return <p className="text-red-600">{error}</p>;
   if (!user) return <p>Loading...</p>;
 
   return (
     <div className="max-w-xl mx-auto mt-10 p-4 border rounded shadow">
-      <h2 className="text-xl mb-2 text-center">Token de prova 🎉</h2>
+      <h2 className="text-xl mb-2 text-center">Token de prova </h2>
 
       <div className="bg-gray-100 p-2 rounded mb-4 break-all">
         <strong>Token:</strong>

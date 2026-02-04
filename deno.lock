@@ -12,6 +12,7 @@
     "npm:eslint-plugin-react-refresh@~0.4.24": "0.4.24_eslint@9.39.1",
     "npm:eslint@^9.39.1": "9.39.1",
     "npm:globals@^16.5.0": "16.5.0",
+    "npm:pigeon-maps@~0.22.1": "0.22.1_react@19.2.1",
     "npm:react-bootstrap-icons@^1.11.5": "1.11.6_react@19.2.1",
     "npm:react-bootstrap@^2.10.10": "2.10.10_@types+react@19.2.7_react@19.2.1_react-dom@19.2.1__react@19.2.1",
     "npm:react-dom@^19.2.0": "19.2.1_react@19.2.1",
@@ -1465,6 +1466,12 @@
     "picomatch@4.0.3": {
       "integrity": "sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q=="
     },
+    "pigeon-maps@0.22.1_react@19.2.1": {
+      "integrity": "sha512-mVWxgpIyhAekITeJvDGlFAo/Ytm6Fg7prpDiAuQ0Z6cJ/LwpnS8F0sF+0TDqyJu7C/DDHupkstFTNoIRqhdP5A==",
+      "dependencies": [
+        "react"
+      ]
+    },
     "postcss@8.5.6": {
       "integrity": "sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==",
       "dependencies": [
@@ -1799,6 +1806,7 @@
         "npm:eslint-plugin-react-refresh@~0.4.24",
         "npm:eslint@^9.39.1",
         "npm:globals@^16.5.0",
+        "npm:pigeon-maps@~0.22.1",
         "npm:react-bootstrap-icons@^1.11.5",
         "npm:react-bootstrap@^2.10.10",
         "npm:react-dom@^19.2.0",
