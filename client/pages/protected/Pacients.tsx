@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Alert, Spinner } from "react-bootstrap";
 import AddPatientsForm from "../../components/addPatientForm";
-import { getToken } from "../../utils/auth";
 import { Patient } from "../../utils/types";
-import ListPatients from "./listPatients";
-import SearchPatients from "./searchPatinents";
+import ListPatients from "../../components/listPatients";
+import SearchPatients from "../../components/searchPatinents";
+import EditPatientForm from "../../components/editPatient";
+import { getToken, getUserRole } from "../../utils/auth";
+import { useNavigate } from "react-router-dom"; 
 
 export default function Patients() {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(false);EditPatientForm
+  const [editingPatient, setEditingPatient] = useState<Patient | null>(null);
+
 
   const fetchPatients = async () => {
     setLoading(true);
@@ -137,6 +141,20 @@ export default function Patients() {
           </Col>
         </Row>
       )}
+      {editingPatient && (
+        <Row className="mb-4">
+          <Col>
+            <EditPatientForm
+              patient={editingPatient}
+              onPatientUpdated={() => {
+                setEditingPatient(null);
+                fetchPatients();
+              }}
+              onCancel={() => setEditingPatient(null)}
+            />
+          </Col>
+        </Row>
+      )}
 
       <Row>
         <Col>
@@ -151,7 +169,15 @@ export default function Patients() {
               No s'han trobat pacients amb els criteris de cerca.
             </Alert>
           ) : (
-            <ListPatients patients={filteredPatients} />
+          <ListPatients 
+            patients={filteredPatients} 
+            onPatientDeleted={fetchPatients}
+            onPatientEdit={(patient) => {
+              setShowForm(false); // oculta el formulario de añadir
+              setEditingPatient(patient); // muestra el formulario de edición
+            }}
+          />
+     
           )}
         </Col>
       </Row>

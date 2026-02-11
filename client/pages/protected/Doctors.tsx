@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Alert, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom"; // <-- IMPORTA useNavigate
 import AddDoctorForms from "../../components/addDoctorForms";
-import { getToken } from "../../utils/auth";
-import ListDoctors from "./listDoctors";
-import SearchDoctors from "./searchDoctors";
+import EditDoctorForm from "../../components/editDoctor";
+import { getToken, getUserRole } from "../../utils/auth";
+import ListDoctors from "../../components/listDoctors";
+import SearchDoctors from "../../components/searchDoctors";
 import { Doctor } from "../../utils/types";
 
 export default function Doctors() {
@@ -12,7 +14,10 @@ export default function Doctors() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [editingDoctor, setEditingDoctor] = useState<Doctor | null>(null);
 
+  
+  
   const fetchDoctors = async () => {
     setLoading(true);
     setError(null);
@@ -32,7 +37,6 @@ export default function Doctors() {
       }
 
       const data: Doctor[] = await res.json();
-      console.log("Doctors data:", data);
       setDoctors(data);
       setFilteredDoctors(data);
     } catch (err) {
@@ -58,7 +62,7 @@ export default function Doctors() {
       const matchName = doctor.name?.toLowerCase().includes(lowerSearch);
       const matchUsername = doctor.username?.toLowerCase().includes(lowerSearch);
       const matchSpecialty = doctor.specialty?.toLowerCase().includes(lowerSearch);
-      
+
       return matchName || matchUsername || matchSpecialty;
     });
 
@@ -93,7 +97,7 @@ export default function Doctors() {
             <Button
               variant="primary"
               onClick={() => setShowForm(true)}
-              disabled={showForm}
+              disabled={showForm || editingDoctor !== null}
             >
               <i className="bi bi-plus-circle me-2"></i>
               Afegir Doctor
@@ -116,6 +120,21 @@ export default function Doctors() {
         </Row>
       )}
 
+      {editingDoctor && (
+        <Row className="mb-4">
+          <Col>
+            <EditDoctorForm
+              doctor={editingDoctor}
+              onDoctorUpdated={() => {
+                setEditingDoctor(null);
+                fetchDoctors();
+              }}
+              onCancel={() => setEditingDoctor(null)}
+            />
+          </Col>
+        </Row>
+      )}
+
       <Row>
         <Col>
           <SearchDoctors onSearch={handleSearch} />
@@ -129,7 +148,14 @@ export default function Doctors() {
               No s'han trobat doctors amb els criteris de cerca.
             </Alert>
           ) : (
-            <ListDoctors doctors={filteredDoctors} />
+            <ListDoctors 
+              doctors={filteredDoctors} 
+              onDoctorDeleted={fetchDoctors}
+              onDoctorEdit={(doctor) => {
+                setShowForm(false);
+                setEditingDoctor(doctor);
+              }}
+            />
           )}
         </Col>
       </Row>

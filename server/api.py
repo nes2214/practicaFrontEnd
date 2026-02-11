@@ -95,13 +95,7 @@ def require_role(allowed_roles: List[str]):
         return user
     return role_checker
 
-# -------------------------------
-# Public Test Method
-# -------------------------------
-# Servei web de prova.
-@clinic_router.get("/time")
-def get_current_time():
-    return {"time": time.time()}
+
 
 
 # -------------------------------
@@ -414,31 +408,13 @@ async def create_doctor(
         raise HTTPException(status_code=500, detail="Internal error creating doctor")
 
 
-@clinic_router.get("/doctors", response_model=List[Doctor], dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])
+@clinic_router.get("/doctors", response_model=List[Doctor], dependencies=[Depends(require_role(["admin"]))])
 async def list_doctors(db_pool: asyncpg.Pool = Depends(get_postgres)):
-    """
-    Retrieve a list of all doctors.
-
-    Args:
-        db_pool (asyncpg.Pool): Database connection pool.
-
-    Raises:
-        HTTPException: If database query fails.
-
-    Returns:
-        List[Doctor]: List of all doctors in the system.
-    """
     query = "SELECT username, name, specialty FROM doctors ORDER BY username"
+    async with db_pool.acquire() as conn:
+        rows = await conn.fetch(query)
+    return [Doctor(**r) for r in rows]
 
-    try:
-        async with db_pool.acquire() as conn:
-            rows = await conn.fetch(query)
-
-        return [Doctor(**r) for r in rows]
-
-    except Exception as e:
-        logger.error(f"Error fetching doctors: {e}")
-        raise HTTPException(status_code=500, detail="Internal error")
 
 
 @clinic_router.get("/doctors/{username}", response_model=Doctor, dependencies=[Depends(require_role(["admin", "doctor", "patient"]))])

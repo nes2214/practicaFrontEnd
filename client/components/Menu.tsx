@@ -6,7 +6,23 @@ export default function Menu() {
   const [loggedIn, setLoggedIn] = useState(!!getToken());
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [role, setRole] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  // Obtener rol desde el token (ajustar según tu implementación real)
+  const getUserRole = () => {
+    if (!getToken()) return null;
+    try {
+      const token = JSON.parse(atob(getToken().split(".")[1]));
+      return token.role;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    setRole(getUserRole());
+  }, [loggedIn]);
 
   useEffect(() => {
     const handleStorageChange = () => setLoggedIn(!!getToken());
@@ -25,6 +41,7 @@ export default function Menu() {
   const handleLogout = () => {
     removeToken();
     setLoggedIn(false);
+    setRole(null);
     navigate("/login");
   };
 
@@ -61,17 +78,24 @@ export default function Menu() {
             About Us
             <div className="h-0.5 w-0 group-hover:w-full transition-all duration-300 bg-white" />
           </NavLink>
-          
-          <NavLink to="/doctors" className={navLinkClass}>
-            Doctors
-            <div className="h-0.5 w-0 group-hover:w-full transition-all duration-300 bg-white" />
-          </NavLink>
-          
-          <NavLink to="/patients" className={navLinkClass}>
-            Patients
-            <div className="h-0.5 w-0 group-hover:w-full transition-all duration-300 bg-white" />
-          </NavLink>
 
+          {/* Doctors - solo admin */}
+          {role === "admin" && (
+            <NavLink to="/doctors" className={navLinkClass}>
+              Doctors
+              <div className="h-0.5 w-0 group-hover:w-full transition-all duration-300 bg-white" />
+            </NavLink>
+          )}
+
+          {/* Patients - admin y doctor */}
+          {(role === "admin" || role === "doctor") && (
+            <NavLink to="/patients" className={navLinkClass}>
+              Patients
+              <div className="h-0.5 w-0 group-hover:w-full transition-all duration-300 bg-white" />
+            </NavLink>
+          )}
+
+          {/* My Info - todos logueados */}
           {loggedIn && (
             <NavLink to="/user" className={navLinkClass}>
               My Info
@@ -80,7 +104,7 @@ export default function Menu() {
           )}
         </div>
 
-        {/* Desktop Right - Auth Buttons */}
+        {/* Desktop Auth Buttons */}
         <div className="hidden md:flex items-center gap-4">
           {!loggedIn ? (
             <button 
@@ -142,15 +166,22 @@ export default function Menu() {
         <NavLink to="/about" onClick={() => setIsOpen(false)} className="text-gray-800 hover:text-green-600 no-underline text-lg">
           About Us
         </NavLink>
-        
-        <NavLink to="/doctors" onClick={() => setIsOpen(false)} className="text-gray-800 hover:text-green-600 no-underline text-lg">
-          Doctors
-        </NavLink>
-        
-        <NavLink to="/patients" onClick={() => setIsOpen(false)} className="text-gray-800 hover:text-green-600 no-underline text-lg">
-          Patients
-        </NavLink>
 
+        {/* Doctors - solo admin */}
+        {role === "admin" && (
+          <NavLink to="/doctors" onClick={() => setIsOpen(false)} className="text-gray-800 hover:text-green-600 no-underline text-lg">
+            Doctors
+          </NavLink>
+        )}
+
+        {/* Patients - admin y doctor */}
+        {(role === "admin" || role === "doctor") && (
+          <NavLink to="/patients" onClick={() => setIsOpen(false)} className="text-gray-800 hover:text-green-600 no-underline text-lg">
+            Patients
+          </NavLink>
+        )}
+
+        {/* My Info */}
         {loggedIn && (
           <NavLink to="/user" onClick={() => setIsOpen(false)} className="text-gray-800 hover:text-green-600 no-underline text-lg">
             My Info
